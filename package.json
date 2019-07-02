@@ -1,0 +1,63 @@
+{
+  "name": "myna",
+  "version": "0.0.1",
+  "description": "A lightweight messanger service",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaodongio/myna"
+  },
+  "scripts": {
+    "dev": "npm run build && npm run watch-debug",
+    "start": "npm run serve",
+    "build": "npm run build-ts && npm run tslint",
+    "serve": "node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "serve-debug": "nodemon --inspect dist/server.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.0.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.16.4",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.0.1",
+    "http-errors": "~1.6.3",
+    "lodash": "^4.17.11",
+    "lusca": "^1.6.1",
+    "mongoose": "^5.6.2",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pug": "2.0.0-beta11",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/body-parser": "^1.17.0",
+    "@types/connect-mongo": "0.0.42",
+    "@types/dotenv": "^6.1.1",
+    "@types/errorhandler": "0.0.32",
+    "@types/express-session": "^1.15.13",
+    "@types/express-validator": "^3.0.0",
+    "@types/lodash": "^4.14.135",
+    "@types/lusca": "^1.6.0",
+    "@types/mongoose": "^5.5.6",
+    "@types/morgan": "^1.7.35",
+    "@types/passport": "^1.0.0",
+    "@types/passport-local": "^1.0.33",
+    "@types/winston": "^2.4.4",
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.2"
+  }
+}
