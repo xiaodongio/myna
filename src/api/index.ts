@@ -1,7 +1,9 @@
 import * as express from "express";
 
-import testApi from "./test.api";
+import TestApi from "./test.api";
 
-export default function api(server: express.Express) {
-    server.use("/api/v1", testApi);
+export default class Api {
+    public static initializeApis(app: express.Express) {
+        app.use("/api/v1", new TestApi().router);
+    }
 }

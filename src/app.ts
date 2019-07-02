@@ -7,50 +7,98 @@ import lusca from "lusca";
 import { MONGODB_URI, SESSION_SECRET } from "./utils/env";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import compression from "compression";
+import morgan from "morgan";
+import http from "http";
+import logger from "./utils/logger";
 
 // api
-import api from "./api";
+import Api from "./api";
+
+import { Auth } from "./auth/auth";
 
 
-const MongoStore = mongo(session);
+export default class App {
 
-const app = express();
+  public static app: express.Express;
 
-// Load environment variables from .env file
-dotenv.config({ path: ".env.dev" });
+  constructor() {}
 
-// Connect to MongoDB
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+  public static async initializeApp(): Promise<http.Server> {
+    try {
+      // Load environment variables from .env file
+      dotenv.config({ path: ".env.dev" });
 
+      App.app = express();
 
-app.use(bodyParser.json());
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: SESSION_SECRET,
-  store: new MongoStore({
-    url: MONGODB_URI,
-    autoReconnect: true
-  })
-}));
+      // Configure application
+      App.configureApp();
+
+      // Initialize passport
+      App.initializeAuth();
+
+      // Initialize apis
+      Api.initializeApis(App.app);
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+      process.on("unhandledRejection", (reason, p) => {
+          logger.error("Unhandled Rejection at: Promise", p, "reason:", reason);
+      });
+
+      return App.app.listen(App.app.get("port"));
+    } catch (error) {
+        throw new Error(error.message);
+    }
+
+  }
+
+  private static initializeMongoDB() {
+    // Connect to MongoDB
+    mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+  }
+
+  private static initializeAuth() {
+    App.app.use(passport.initialize());
+    App.app.use(passport.session());
+    Auth.serializeUser();
+    Auth.useLocalStrategy();
+  }
 
 
-app.use(lusca.xframe("SAMEORIGIN"));
-app.use(lusca.xssProtection(true));
+  private static configureApp() {
+      // all environments
+    App.app.set("port", process.env.PORT || 3000);
+    App.app.use(bodyParser.urlencoded({ extended: true }));
+    App.app.use(bodyParser.json());
+    App.app.use(compression());
+    App.app.use(morgan("dev", {
+        skip: function (req, res) {
+            return res.statusCode < 400;
+        }, stream: process.stderr
+    }));
 
+    App.app.use(morgan("dev", {
+        skip: function (req, res) {
+            return res.statusCode >= 400;
+        }, stream: process.stdout
+    }));
 
-api(app);
+    const MongoStore = mongo(session);
+    App.app.use(session({
+      resave: true,
+      saveUninitialized: true,
+      secret: SESSION_SECRET,
+      store: new MongoStore({
+        url: MONGODB_URI,
+        autoReconnect: true
+      })
+    }));
 
-// app.use("/", (req, res) => {
-//   res.send({ msg: "hello" });
-// });
-
-export default app;
+    App.app.use(lusca.xframe("SAMEORIGIN"));
+    App.app.use(lusca.xssProtection(true));
+  }
+}

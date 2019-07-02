@@ -22,6 +22,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "connect-mongo": "^3.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.17.0",
+    "@types/compression": "0.0.36",
     "@types/connect-mongo": "0.0.42",
     "@types/dotenv": "^6.1.1",
     "@types/errorhandler": "0.0.32",
