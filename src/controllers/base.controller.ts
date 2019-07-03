@@ -1,14 +1,14 @@
 import * as express from "express";
 
-export abstract class BaseApi {
+export abstract class BaseController {
 
     public router: express.Router;
 
     constructor() {
         this.router = express.Router();
-        this.buildApis();
+        this.buildRoutes();
     }
 
-    protected abstract buildApis(): void;
+    protected abstract buildRoutes(): void;
 
 }

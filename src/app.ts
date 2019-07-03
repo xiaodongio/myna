@@ -11,9 +11,10 @@ import compression from "compression";
 import morgan from "morgan";
 import http from "http";
 import logger from "./utils/logger";
+import * as path from "path";
 
-// api
-import Api from "./api";
+// controllers
+import Router from "./controllers";
 
 import { Auth } from "./auth/auth";
 
@@ -31,14 +32,17 @@ export default class App {
 
       App.app = express();
 
+      // mongodb
+      App.initializeMongoDB();
+
       // Configure application
       App.configureApp();
 
       // Initialize passport
       App.initializeAuth();
 
-      // Initialize apis
-      Api.initializeApis(App.app);
+      // Initialize routes
+      Router.initializeRoutes(App.app);
 
 
       process.on("unhandledRejection", (reason, p) => {
@@ -70,6 +74,16 @@ export default class App {
 
 
   private static configureApp() {
+    // art template
+    App.app.set("views", path.join(__dirname, "../src/views"));
+
+    App.app.engine("html", require("express-art-template"));
+    App.app.set("view options", {
+      debug: process.env.NODE_ENV !== "production"
+    });
+
+    App.app.use(express.static("public"));
+
       // all environments
     App.app.set("port", process.env.PORT || 3000);
     App.app.use(bodyParser.urlencoded({ extended: true }));
@@ -100,5 +114,7 @@ export default class App {
 
     App.app.use(lusca.xframe("SAMEORIGIN"));
     App.app.use(lusca.xssProtection(true));
+
+
   }
 }
