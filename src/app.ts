@@ -82,7 +82,9 @@ export default class App {
       debug: process.env.NODE_ENV !== "production"
     });
 
-    App.app.use(express.static("public"));
+    App.app.use("/static",
+        express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+    );
 
       // all environments
     App.app.set("port", process.env.PORT || 3000);
