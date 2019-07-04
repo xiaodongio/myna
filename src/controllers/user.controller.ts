@@ -26,7 +26,7 @@ export default class UserController extends BaseController {
       }
       req.logIn(user, (err) => {
         if (err) { return next(err); }
-        return res.json({ errors: info.message });
+        return res.redirect(req.session.returnTo || "/");
       });
     })(req, res, next);
   }
@@ -59,7 +59,7 @@ export default class UserController extends BaseController {
 
     this.router.get("/login", this.loginPage.bind(this));
     this.router.get("/register", this.registerPage.bind(this));
-    this.router.post("/register",[
+    this.router.post("/register", [
       check("loginName").not().isEmpty().withMessage("loginName cannot be blank"),
       check("password").not().isEmpty().withMessage("Password cannot be blank")
     ], this.register.bind(this));

@@ -1,11 +1,11 @@
 import * as express from "express";
 
-import TestController from "./test.controller";
+import HomeController from "./home.controller";
 import UserController from "./user.controller";
 
 export default class Router {
     public static initializeRoutes(app: express.Express) {
-        app.use("/", new TestController().router);
+        app.use("/", new HomeController().router);
         app.use("/users", new UserController().router);
     }
 }

@@ -57,7 +57,7 @@ export class Auth {
     if (req.isAuthenticated()) {
       return next();
     }
-    res.send({msg: "please login"});
+    res.redirect("/users/login");
   }
 
 }

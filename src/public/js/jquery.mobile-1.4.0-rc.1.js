@@ -9708,7 +9708,7 @@ $.widget( "mobile.selectmenu", $.extend( {
 		var self = this;
 
 		return this.selected().map(function() {
-			return self._selectOptions().index( this );
+			return self._selectOptions().home( this );
 		}).get();
 	},
 
@@ -13754,7 +13754,7 @@ $.widget( "ui.tabs", {
 		if ( $.isArray( options.disabled ) ) {
 			options.disabled = $.unique( options.disabled.concat(
 				$.map( this.tabs.filter( ".ui-state-disabled" ), function( li ) {
-					return that.tabs.index( li );
+					return that.tabs.home( li );
 				})
 			) ).sort();
 		}
@@ -13791,7 +13791,7 @@ $.widget( "ui.tabs", {
 
 			// check for a tab marked active via a class
 			if ( active === null ) {
-				active = this.tabs.index( this.tabs.filter( ".ui-tabs-active" ) );
+				active = this.tabs.home( this.tabs.filter( ".ui-tabs-active" ) );
 			}
 
 			// no active tab, set to false
@@ -13802,7 +13802,7 @@ $.widget( "ui.tabs", {
 
 		// handle numbers: negative, out of range
 		if ( active !== false ) {
-			active = this.tabs.index( this.tabs.eq( active ) );
+			active = this.tabs.home( this.tabs.eq( active ) );
 			if ( active === -1 ) {
 				active = collapsible ? false : 0;
 			}
@@ -13825,7 +13825,7 @@ $.widget( "ui.tabs", {
 
 	_tabKeydown: function( event ) {
 		var focusedTab = $( this.document[0].activeElement ).closest( "li" ),
-			selectedIndex = this.tabs.index( focusedTab ),
+			selectedIndex = this.tabs.home( focusedTab ),
 			goingForward = true;
 
 		if ( this._handlePageNav( event ) ) {
@@ -13981,7 +13981,7 @@ $.widget( "ui.tabs", {
 		// get disabled tabs from class attribute from HTML
 		// this will get converted to a boolean if needed in _refresh()
 		options.disabled = $.map( lis.filter( ".ui-state-disabled" ), function( tab ) {
-			return lis.index( tab );
+			return lis.home( tab );
 		});
 
 		this._processTabs();
@@ -14003,7 +14003,7 @@ $.widget( "ui.tabs", {
 		// was active, active tab still exists
 		} else {
 			// make sure active index is correct
-			options.active = this.tabs.index( this.active );
+			options.active = this.tabs.home( this.active );
 		}
 
 		this._refresh();
@@ -14232,7 +14232,7 @@ $.widget( "ui.tabs", {
 			return;
 		}
 
-		options.active = collapsing ? false : this.tabs.index( tab );
+		options.active = collapsing ? false : this.tabs.home( tab );
 
 		this.active = clickedIsActive ? $() : tab;
 		if ( this.xhr ) {
@@ -14244,7 +14244,7 @@ $.widget( "ui.tabs", {
 		}
 
 		if ( toShow.length ) {
-			this.load( this.tabs.index( tab ), event );
+			this.load( this.tabs.home( tab ), event );
 		}
 		this._toggle( event, eventData );
 	},
@@ -14341,7 +14341,7 @@ $.widget( "ui.tabs", {
 	_getIndex: function( index ) {
 		// meta-function to give users option to provide a href string instead of a numerical index.
 		if ( typeof index === "string" ) {
-			index = this.anchors.index( this.anchors.filter( "[href$='" + index + "']" ) );
+			index = this.anchors.home( this.anchors.filter( "[href$='" + index + "']" ) );
 		}
 
 		return index;
