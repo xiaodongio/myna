@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.mobile.flatui.css" />
+    <title>{{ title }}</title>
+</head>
+<body>
+<div class="container-fluid">
+    {{include './header'}}
+    {{block 'header' }}{{/block}}
+    {{block 'content' }}{{/block}}
+    {{block 'footer' }}{{/block}}
+    {{include './footer'}}
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mobile-1.4.0-rc.1.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 
 export interface UserDocument extends mongoose.Document {
@@ -14,8 +15,13 @@ export interface UserDocument extends mongoose.Document {
 }
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String,
+  loginName: { type: String, unique: true },
+  password: {
+    type: String,
+    set: (value: string) => {
+      return bcrypt.hashSync(value);
+    }
+  },
   tokens: Array,
   profile: {
     name: String,

@@ -4,7 +4,7 @@ export abstract class BaseController {
 
     public router: express.Router;
 
-    constructor() {
+    protected constructor() {
         this.router = express.Router();
         this.buildRoutes();
     }

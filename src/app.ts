@@ -79,11 +79,13 @@ export default class App {
 
     App.app.engine("html", require("express-art-template"));
     App.app.set("view options", {
-      debug: process.env.NODE_ENV !== "production"
+      debug: process.env.NODE_ENV !== "production",
+      extname: ".html"
     });
 
-    App.app.use("/static",
-        express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+
+    App.app.use(
+        express.static(path.join(__dirname, "../src/public"), { maxAge: 31557600000 })
     );
 
       // all environments
