@@ -26,7 +26,7 @@ export default class UserController extends BaseController {
       }
       req.logIn(user, (err) => {
         if (err) { return next(err); }
-        return res.redirect(req.session.returnTo || "/");
+        return res.redirect(req.session.returnTo || "/home");
       });
     })(req, res, next);
   }

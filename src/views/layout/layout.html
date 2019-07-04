@@ -9,13 +9,13 @@
     <title>{{ title }}</title>
 </head>
 <body>
-<div class="container-fluid">
     {{include './header'}}
     {{block 'header' }}{{/block}}
-    {{block 'content' }}{{/block}}
+    <div class="container">
+        {{block 'content' }}{{/block}}
+    </div>
     {{block 'footer' }}{{/block}}
     {{include './footer'}}
-</div>
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery.mobile-1.4.0-rc.1.js"></script>
