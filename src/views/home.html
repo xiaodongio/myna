@@ -1,7 +1,7 @@
 {{extend './layout/layout' }}
 {{block 'content'}}
 
-<div data-role="page">
+<div>
     <div data-role="header" class="header linear-g">
         <a href="#panel-left" data-iconpos="notext" class="glyphicon glyphicon-th-large col-xs-2 text-right"> </a>
         <a class="text-center col-xs-8">developer.cn.com</a>
@@ -167,5 +167,16 @@
 </div>
 
 
+{{/block}}
+
+{{block 'script' }}
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000');
+        socket.on('hello', function (data) {
+            console.log(data);
+        });
+    </script>
 {{/block}}
 
